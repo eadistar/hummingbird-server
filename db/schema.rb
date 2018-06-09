@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180606202637) do
+ActiveRecord::Schema.define(version: 20180608215546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1516,9 +1516,6 @@ ActiveRecord::Schema.define(version: 20180606202637) do
     t.integer  "approved_edit_count",                     default: 0
     t.integer  "rejected_edit_count",                     default: 0
     t.datetime "pro_expires_at"
-    t.string   "stripe_token",                limit: 255
-    t.integer  "pro_membership_plan_id"
-    t.string   "stripe_customer_id",          limit: 255
     t.text     "about_formatted"
     t.integer  "import_status"
     t.string   "import_from",                 limit: 255
