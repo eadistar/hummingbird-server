@@ -278,6 +278,16 @@ class User < ApplicationRecord
     streak_end - pro_started_at
   end
 
+  def stripe_customer
+    @stripe_customer ||= if stripe_customer_id
+                           Stripe::Customer.retrieve(stripe_customer_id)
+                         else
+                           customer = Stripe::Customer.create(email: email)
+                           self.stripe_customer_id = customer.id
+                           customer
+                         end
+  end
+
   def blocked?(user)
     blocks.where(user: [self, user], blocked: [self, user]).exists?
   end
@@ -428,5 +438,8 @@ class User < ApplicationRecord
     self.confirmed_at = nil
     # Send Confirmation Email
     UserMailer.confirmation(self).deliver_later
+    # Update email on Stripe
+    stripe_customer.email = email
+    stripe_customer.save
   end
 end
